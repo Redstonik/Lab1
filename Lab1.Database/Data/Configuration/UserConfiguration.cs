@@ -14,8 +14,6 @@ namespace Lab1.Database.Data.Configuration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .HasKey(x => x.Id);
-            builder
                 .Property(x => x.Name)
                 .HasMaxLength(50)
                 .IsRequired();

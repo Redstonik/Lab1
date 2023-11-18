@@ -1,5 +1,6 @@
 ﻿using Lab1.Contracts.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Lab1.Database.Data
 {
@@ -36,6 +37,13 @@ namespace Lab1.Database.Data
         public async Task UpdateAsync(TEntity entity)
         {
             await Task.Run(() => _dbContext.Entry(entity).State = (Microsoft.EntityFrameworkCore.EntityState)EntityState.Modified);
+        }
+        public IQueryable<TEntity> Query(params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = includes
+            .Aggregate<Expression<Func<TEntity, object>>,
+            IQueryable<TEntity>>(_dbSet, (current, include) => current.Include(include));
+            return query;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Lab1.Contracts.Data.Entities;
 using Lab1.Database.Data.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Lab1.Database.Data
 {
-    public class Lab1DbContext : DbContext
+    public class Lab1DbContext : IdentityDbContext<User>
     {
         public Lab1DbContext(DbContextOptions<Lab1DbContext> options) : base(options)
         {
@@ -21,5 +22,7 @@ namespace Lab1.Database.Data
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }
